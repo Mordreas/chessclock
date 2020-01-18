@@ -1,0 +1,77 @@
+<body>
+  <script type="text/javascript">
+    let player1Active = false;
+    let player2Active = false;
+    let player3Active = false;
+
+    let player1CurrentTime = 0;
+    let player2CurrentTime = 0;
+    let player3CurrentTime = 0;
+
+    let switchtime = 0;
+
+    function click1() {
+      if (!player1Active) {
+        update()
+
+        player1Active = true;
+        player2Active = false;
+        player3Active = false;
+
+        switchtime = Date.now();
+      }
+    }
+
+    function click2() {
+      if (!player2Active) {
+        update()
+
+        player2Active = true;
+        player1Active = false;
+        player3Active = false;
+
+        switchtime = Date.now();
+      }
+    }
+
+    function click3() {
+      if (!player3Active) {
+        update()
+
+        player3Active = true;
+        player2Active = false;
+        player1Active = false;
+
+        switchtime = Date.now();
+      }
+    }
+
+    function pause() {
+      player1Active = false;
+      player2Active = false;
+      player3Active = false;
+    }
+    function getTimeString(time) {
+      return  `${new Date(time).getUTCHours()}:${new Date(time).getUTCMinutes()<10?"0":""}${new Date(time).getUTCMinutes()}:${new Date(time).getUTCSeconds()<10?"0":""}${new Date(time).getUTCSeconds()}`
+    }
+    function update() {
+      var diffTime = Date.now() - switchtime;
+
+      switchtime += diffTime;
+      if (player1Active) player1CurrentTime += diffTime;
+      if (player2Active) player2CurrentTime += diffTime;
+      if (player3Active) player3CurrentTime += diffTime;
+      
+      document.getElementById("button1").innerHTML = getTimeString(player1CurrentTime);
+      document.getElementById("button2").innerHTML = getTimeString(player2CurrentTime);
+      document.getElementById("button3").innerHTML = getTimeString(player3CurrentTime);
+    }
+
+    setInterval(update, 1);
+  </script>
+
+  <button style="width: 20%; height: 100%; float: right"onclick="pause()">Pause</button>
+  <button id="button1" style="width: 80%; background-color:lightblue; font-size: 10vw; height: 33%; float: left" onclick="click1()">0:00:00</button>
+  <button id="button2" style="width: 80%; background-color:lightcoral; font-size: 10vw; height: 33%; float: left"onclick="click2()">0:00:00</button>
+  <button id="button3" style="width: 80%; background-color:lightgreen; font-size: 10vw; height: 33%; float: left"onclick="click3()">0:00:00</button>
+</body>
